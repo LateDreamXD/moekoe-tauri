@@ -1,0 +1,35 @@
+{
+  "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
+  "productName": "MoeKoe Music",
+  "version": "../core/package.json",
+  "identifier": "cn.MoeKoe.Music.tauri",
+  "build": {
+    "frontendDist": "../core/dist",
+    "devUrl": "http://localhost:8080/",
+    "beforeDevCommand": "pnpm dev",
+    "beforeBuildCommand": "pnpm build"
+  },
+  "app": {
+    "windows": [
+      {
+        "title": "MoeKoe Music: Tauri Edition",
+        "width": 1024,
+        "height": 768,
+        "resizable": true,
+        "fullscreen": false
+      }
+    ],
+    "security": {
+      "csp": null
+    }
+  },
+  "bundle": {
+    "active": true,
+    "targets": "all",
+    "icon": [
+      "../core/build/icons/icon.ico",
+      "../core/build/icons/icon.icns",
+      "../core/build/icons/icon.png"
+    ]
+  }
+}
