@@ -1,14 +1,14 @@
-From 5a018e4015f2d2a123855cd2f2aaffd7be50eb2a Mon Sep 17 00:00:00 2001
+From acaa113573a82bbfb4ad2b702aaa0f28b81f78db Mon Sep 17 00:00:00 2001
 From: LateDreamXD <127290936+LateDreamXD@users.noreply.github.com>
-Date: Fri, 20 Feb 2026 11:37:30 +0800
+Date: Fri, 20 Feb 2026 13:41:05 +0800
 Subject: [PATCH] patch: package.json
 
 ---
- package.json | 132 +--------------------------------------------------
- 1 file changed, 2 insertions(+), 130 deletions(-)
+ package.json | 133 +--------------------------------------------------
+ 1 file changed, 2 insertions(+), 131 deletions(-)
 
 diff --git a/package.json b/package.json
-index 18900a6..32c9038 100644
+index 18900a6..d90a650 100644
 --- a/package.json
 +++ b/package.json
 @@ -7,134 +7,13 @@
@@ -147,7 +147,7 @@ index 18900a6..32c9038 100644
    "type": "module",
    "author": {
      "name": "MoeJue",
-@@ -147,9 +26,6 @@
+@@ -147,22 +26,14 @@
      "@types/node": "^24.10.1",
      "@vitejs/plugin-vue": "^6.0.2",
      "@vue/compiler-sfc": "^3.5.12",
@@ -157,7 +157,9 @@ index 18900a6..32c9038 100644
      "esbuild": "0.25.11",
      "npm-run-all": "^4.1.5",
      "vite": "^7.2.6",
-@@ -159,10 +35,6 @@
+-    "vite-plugin-pwa": "^1.2.0",
+     "vue-loader": "^17.3.1",
+     "wait-on": "^8.0.1"
    },
    "dependencies": {
      "adm-zip": "^0.5.16",
@@ -168,7 +170,7 @@ index 18900a6..32c9038 100644
      "music-metadata": "^11.7.3",
      "pinia": "^3.0.0",
      "pinia-plugin-persistedstate": "^4.1.1",
-@@ -173,4 +45,4 @@
+@@ -173,4 +44,4 @@
      "vue3-virtual-scroller": "^0.2.3",
      "ws": "^8.18.1"
    }

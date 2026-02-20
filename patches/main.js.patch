@@ -1,0 +1,42 @@
+From feaeee143f71e86f0315036381b312be705554b2 Mon Sep 17 00:00:00 2001
+From: LateDreamXD <127290936+LateDreamXD@users.noreply.github.com>
+Date: Fri, 20 Feb 2026 13:48:11 +0800
+Subject: [PATCH] patch: main.js
+
+---
+ src/main.js | 12 ------------
+ 1 file changed, 12 deletions(-)
+
+diff --git a/src/main.js b/src/main.js
+index e4206dd..87b5b43 100644
+--- a/src/main.js
++++ b/src/main.js
+@@ -8,7 +8,6 @@ import ModalPlugin from './plugins/ModalPlugin';
+ import MessagePlugin from './plugins/MessagePlugin';
+ import i18n from './utils/i18n';
+ import '@/assets/themes/dark.css';
+-import { registerSW } from 'virtual:pwa-register'
+ 
+ const app = createApp(App);
+ const pinia = createPinia();
+@@ -29,17 +28,6 @@ window.addEventListener('unhandledrejection', event => {
+   // window.$modal.alert('系统错误');
+ });
+ 
+-if (!window.electron) {
+-  registerSW({
+-    onNeedRefresh() {
+-      console.log('有新内容可用，请刷新页面')
+-    },
+-    onOfflineReady() {
+-      console.log('应用已准备好离线工作')
+-    }
+-  })
+-}
+-
+ app.use(pinia);
+ app.use(router);
+ app.use(i18n);
+-- 
+2.52.0.windows.1
+
