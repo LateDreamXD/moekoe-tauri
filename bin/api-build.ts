@@ -1,8 +1,8 @@
 import { execSync } from 'child_process';
 import { resolve } from 'path';
 
-const corePath = resolve(process.cwd(), 'core');
-console.log('postbuild running...');
+const timer = Date.now();
+const apiPath = resolve(process.cwd(), 'core/api');
 
 const os = (() => {switch (process.platform) {
 	case 'win32':
@@ -17,7 +17,7 @@ const os = (() => {switch (process.platform) {
 		throw new Error(`unsupported platform: '${process.platform}'`);
 }})();
 
-execSync(`npm run build:api:${os}`, { cwd: corePath });
-console.log(`api server executable builded for ${os}`);
+console.log(`building api server for ${os}...`);
 
-console.log('postbuild completed');
+execSync(`npm run pkg${os}`, { cwd: apiPath });
+console.log(`api server build completed in ${Date.now() - timer}ms`);

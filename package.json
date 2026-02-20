@@ -7,7 +7,7 @@
     "dev": "cd core && pnpm dev",
     "build": "cd core && pnpm build",
     "patch": "unrun bin/patch.ts",
-    "postbuild": "unrun bin/postbuild.ts",
+    "postbuild": "unrun bin/api-build.ts",
     "app:dev": "tauri dev",
     "app:build": "tauri build && pnpm postbuild"
   },
