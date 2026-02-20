@@ -25,6 +25,9 @@
   },
   "bundle": {
     "active": true,
+    "externalBin": [
+      "binaries/api"
+    ],
     "targets": "all",
     "icon": [
       "../core/build/icons/icon.ico",

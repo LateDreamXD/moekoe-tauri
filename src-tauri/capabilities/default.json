@@ -6,6 +6,19 @@
     "main"
   ],
   "permissions": [
-    "core:default"
+    "core:default",
+    {
+      "identifier": "shell:allow-execute",
+      "allow": [
+        {
+          "name": "binaries/api",
+          "args": [
+            "--platform=lite",
+            "--port=6521"
+          ],
+          "sidecar": true
+        }
+      ]
+    }
   ]
 }

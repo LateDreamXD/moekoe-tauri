@@ -4,12 +4,13 @@
   "description": "用 tauri 替换掉 moekoe music 的 electron",
   "scripts": {
     "postinstall": "unrun bin/postinstall.ts && pnpm run patch",
-    "dev": "cd core && pnpm dev",
-    "build": "cd core && pnpm build",
+    "dev": "cd core && npm run dev",
+    "build": "cd core && npm run build",
     "patch": "unrun bin/patch.ts",
-    "postbuild": "unrun bin/postbuild.ts",
+    "postbuild": "pnpm api:build",
     "app:dev": "tauri dev",
-    "app:build": "tauri build && pnpm postbuild"
+    "app:build": "tauri build",
+    "api:build": "unrun bin/api-build.ts"
   },
   "author": "晚梦 <xiaozhisans@qq.com>",
   "license": "GPL-2.0-only",
@@ -18,5 +19,8 @@
     "@tauri-apps/cli": "^2.10.0",
     "@types/node": "^25.3.0",
     "unrun": "^0.2.27"
+  },
+  "dependencies": {
+    "@tauri-apps/plugin-shell": "~2.3.5"
   }
 }
