@@ -1,0 +1,180 @@
+From 5a018e4015f2d2a123855cd2f2aaffd7be50eb2a Mon Sep 17 00:00:00 2001
+From: LateDreamXD <127290936+LateDreamXD@users.noreply.github.com>
+Date: Fri, 20 Feb 2026 11:37:30 +0800
+Subject: [PATCH] patch: package.json
+
+---
+ package.json | 132 +--------------------------------------------------
+ 1 file changed, 2 insertions(+), 130 deletions(-)
+
+diff --git a/package.json b/package.json
+index 18900a6..32c9038 100644
+--- a/package.json
++++ b/package.json
+@@ -7,134 +7,13 @@
+     "install-all": "npm install && cd api && npm install",
+     "serve": "vite",
+     "build": "vite build",
+-    "build:docker": "cross-env VITE_APP_API_URL=/api vite build",
+     "preview": "vite preview",
+-    "electron:serve": "cross-env NODE_ENV=development electron .",
+     "api": "node api/app.js --platform=lite --port=6521",
+-    "dev": "npm run api & npm run serve & npm run electron:serve",
+-    "build:api:win": "npm run --prefix ./api pkgwin",
+-    "build:api:linux": "npm run --prefix ./api pkglinux",
+-    "build:api:linux-arm64": "npm run --prefix ./api pkglinux-arm64",
+-    "build:api:macos": "npm run --prefix ./api pkgmacos",
+-    "electron:build:win": "run-s build:api:win \"electron:build -- --win --publish never\"",
+-    "electron:build:linux": "run-s build:api:linux \"electron:build -- --linux --publish never\"",
+-    "electron:build:linux-arm64": "run-s build:api:linux-arm64 \"electron:build -- --linux --publish never\"",
+-    "electron:build:macos": "run-s build:api:macos \"electron:build -- --mac --x64 --arm64 --publish never\"",
+-    "electron:build:macos:universal": "run-s build:api:macos \"electron:build -- --mac --universal --publish never\"",
+-    "electron:build:macos:x64": "run-s build:api:macos \"electron:build -- --mac --x64 --publish never\"",
+-    "electron:build:macos:arm64": "run-s build:api:macos \"electron:build -- --mac --arm64 --publish never\"",
+-    "electron:build": "cross-env NODE_ENV=production electron-builder"
++    "dev": "npm run api & npm run serve"
+   },
+   "engines": {
+     "node": ">=20"
+   },
+-  "build": {
+-    "publish": {
+-      "provider": "github",
+-      "owner": "iAJue",
+-      "repo": "MoeKoeMusic"
+-    },
+-    "compression": "maximum",
+-    "extraResources": [
+-      {
+-        "from": "build/icons/",
+-        "to": "icons/",
+-        "filter": [
+-          "**/*"
+-        ]
+-      }
+-    ],
+-    "extraFiles": [
+-      {
+-        "from": "api/bin",
+-        "to": "api/",
+-        "filter": [
+-          "**/*"
+-        ]
+-      },
+-      {
+-        "from": "public/assets",
+-        "to": "assets"
+-      }
+-    ],
+-    "appId": "cn.MoeKoe.Music",
+-    "productName": "MoeKoe Music",
+-    "copyright": "© 2024 MoeKoe",
+-    "directories": {
+-      "output": "dist_electron"
+-    },
+-    "files": [
+-      "dist/**/*",
+-      "electron/**/*",
+-      "package.json"
+-    ],
+-    "icon": "build/icons/icon",
+-    "protocols": [
+-      {
+-        "name": "MoeKoe Music Protocol",
+-        "schemes": [
+-          "moekoe"
+-        ]
+-      }
+-    ],
+-    "win": {
+-      "icon": "build/icons/icon.ico",
+-      "target": [
+-        {
+-          "target": "nsis",
+-          "arch": [
+-            "x64",
+-            "ia32"
+-          ]
+-        }
+-      ],
+-      "artifactName": "MoeKoe_Music_Setup_v${version}.${ext}"
+-    },
+-    "nsis": {
+-      "oneClick": false,
+-      "allowToChangeInstallationDirectory": true,
+-      "perMachine": true,
+-      "installerIcon": "build/icons/icon.ico",
+-      "uninstallerIcon": "build/icons/icon.ico",
+-      "installerHeaderIcon": "build/icons/icon.ico",
+-      "createDesktopShortcut": true,
+-      "createStartMenuShortcut": true,
+-      "shortcutName": "MoeKoe Music",
+-      "include": "build/installer.nsh",
+-      "license": "build/license.txt",
+-      "language": "2052",
+-      "warningsAsErrors": true
+-    },
+-    "mac": {
+-      "x64ArchFiles": "*",
+-      "icon": "build/icons/icon.icns",
+-      "target": [
+-        "dmg"
+-      ],
+-      "identity": null,
+-      "artifactName": "${productName}-${arch}.${ext}",
+-      "protocols": [
+-        {
+-          "name": "MoeKoe Music Protocol",
+-          "schemes": [
+-            "moekoe"
+-          ]
+-        }
+-      ]
+-    },
+-    "dmg": {
+-      "sign": false
+-    },
+-    "linux": {
+-      "icon": "build/icons/linux_256x256.png",
+-      "target": [
+-        "AppImage",
+-        "deb"
+-      ],
+-      "category": "Utility",
+-      "artifactName": "${productName}.${ext}"
+-    }
+-  },
+   "type": "module",
+   "author": {
+     "name": "MoeJue",
+@@ -147,9 +26,6 @@
+     "@types/node": "^24.10.1",
+     "@vitejs/plugin-vue": "^6.0.2",
+     "@vue/compiler-sfc": "^3.5.12",
+-    "cross-env": "^7.0.3",
+-    "electron": "^39.0.0",
+-    "electron-builder": "^25.1.8",
+     "esbuild": "0.25.11",
+     "npm-run-all": "^4.1.5",
+     "vite": "^7.2.6",
+@@ -159,10 +35,6 @@
+   },
+   "dependencies": {
+     "adm-zip": "^0.5.16",
+-    "electron-is-dev": "^3.0.1",
+-    "electron-log": "^5.2.0",
+-    "electron-store": "^10.0.0",
+-    "electron-updater": "^6.6.2",
+     "music-metadata": "^11.7.3",
+     "pinia": "^3.0.0",
+     "pinia-plugin-persistedstate": "^4.1.1",
+@@ -173,4 +45,4 @@
+     "vue3-virtual-scroller": "^0.2.3",
+     "ws": "^8.18.1"
+   }
+-}
++}
+\ No newline at end of file
+-- 
+2.52.0.windows.1
+

@@ -5,7 +5,6 @@ const corePath = resolve(process.cwd(), 'core');
 const timer = Date.now();
 console.log('running postinstall...');
 
-execSync('unrun ../bin/patch.ts', { cwd: corePath });
 execSync('git submodule update --init --recursive', { cwd: corePath });
 execSync('npm run install-all', { cwd: corePath });
 
