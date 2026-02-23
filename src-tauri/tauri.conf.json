@@ -30,6 +30,7 @@
       "../core/build/icons/icon.ico",
       "../core/build/icons/icon.icns",
       "../core/build/icons/icon.png"
-    ]
+    ],
+    "category": "Music"
   }
 }
