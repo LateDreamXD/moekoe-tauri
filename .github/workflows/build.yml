@@ -7,7 +7,23 @@ on:
     branches: [ main ]
 
 jobs:
+  get-version:
+    runs-on: 'ubuntu-latest'
+    outputs:
+      version: ${{ steps.get.outputs.version }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+      - id: get
+        run: |
+          sudo apt-get install -y jq
+          cd core
+          version=$(jq -r '.version' package.json)
+          echo "version=$version" >> $GITHUB_OUTPUT
+
   build:
+    needs: get-version
     continue-on-error: true
     strategy:
       fail-fast: false
@@ -15,16 +31,17 @@ jobs:
         include:
           - platform: 'macos-latest' # for Arm based macs (M1 and above).
             args: '--target aarch64-apple-darwin'
-            ext: '.AppImage'
+            file: './src-tauri/target/release/bundle/dmg' # direct archive dir to ignore diffrent arch filename
           - platform: 'macos-latest' # for Intel based macs.
             args: '--target x86_64-apple-darwin'
-            ext: '.AppImage'
           - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
-            args: ''
-            ext: ''
+            args: '--bundle deb rpm'
+            file: |
+              './src-tauri/target/release/bundle/deb/MoeKoe Music_${{ needs.get-version.outputs.version }}_amd64.deb'
+              './src-tauri/target/release/bundle/rpm/MoeKoe Music-${{ needs.get-version.outputs.version }}-1.x86_64.rpm'
           - platform: 'windows-latest'
             args: ''
-            ext: '.exe'
+            file: './src-tauri/target/release/app.exe'
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -56,13 +73,10 @@ jobs:
       - name: install and build
         run: |
           pnpm install
-          pnpm app:build
-
-      - name: list files
-        run: ls ./src-tauri/target/release
+          pnpm app:build ${{ matrix.args }}
 
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
           name: ${{ matrix.platform }}
-          path: './src-tauri/target/release/app${{ matrix.ext }}'
+          path: ${{ matrix.file }}
