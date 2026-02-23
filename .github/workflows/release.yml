@@ -1,0 +1,90 @@
+name: Release
+
+on:
+  push:
+    branches: [ main ]
+  workflow_dispatch:
+
+jobs:
+  prepare-release:
+    if: contains(github.event.head_commit.message, '(release)') || github.event_name == 'workflow_dispatch'
+    runs-on: 'ubuntu-latest'
+    outputs:
+      patch_version: v${{ steps.get.outputs.patch_version }}
+      core_version: v${{ steps.get.outputs.version }}
+      full_version: 'v${{ steps.get.outputs.version }}-patch.${{ steps.get.outputs.patch_version }}'
+      body: ${{ steps.body.outputs.body }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+      - id: get
+        run: |
+          sudo apt-get install -y jq
+          patch_version=$(jq -r '.version' package.json)
+          echo 'patch_version=$patch_version' >> $GITHUB_OUTPUT
+
+          cd core
+          version=$(jq -r '.version' package.json)
+          echo 'version=$version' >> $GITHUB_OUTPUT
+      - id: body
+        run: |
+          body='This version is based on [MoeKoe Music v${{ steps.get.outputs.version }}](https://github.com/MoeKoeMusic/MoeKoeMusic/releases/tag/${{ steps.get.outputs.version }}) with MoeKoe Tauri patch v${{ steps.get.outputs.patch_version }}'
+          echo 'body=$body' >> $GITHUB_OUTPUT
+
+  build-and-release:
+    needs: prepare-release
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest' # for Arm based macs (M1 and above).
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest' # for Intel based macs.
+            args: '--target x86_64-apple-darwin'
+          - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
+            args: ''
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: pnpm/action-setup@v4
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+          cache: 'pnpm'
+
+      - name: install Rust stable
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          # Those targets are only used on macos runners so it's in an `if` to slightly speed up windows and linux builds.
+          targets: ${{ matrix.platform == 'macos-latest' && 'aarch64-apple-darwin,x86_64-apple-darwin' || '' }}
+
+      - name: install dependencies (ubuntu only)
+        if: matrix.platform == 'ubuntu-22.04' # This must match the platform value defined above.
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y libwebkit2gtk-4.0-dev libwebkit2gtk-4.1-dev libappindicator3-dev librsvg2-dev patchelf
+        # webkitgtk 4.0 is for Tauri v1 - webkitgtk 4.1 is for Tauri v2.
+        # You can remove the one that doesn't apply to your app to speed up the workflow a bit.
+
+      - name: install frontend dependencies
+        run: pnpm install
+
+      - uses: tauri-apps/tauri-action@v0
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tagName: ${{ needs.prepare-release.outputs.full_version }}
+          releaseName: 'MoeKoe Tauri v${{ needs.prepare-release.outputs.full_version }}'
+          releaseBody: ${{ needs.prepare-release.outputs.body }}
+          releaseDraft: true
+          prerelease: false
+          args: ${{ matrix.args }}
