@@ -38,7 +38,7 @@ jobs:
             file: './src-tauri/target/release/bundle/dmg/MoeKoe Music_${{ needs.get-version.outputs.version }}_aarch64.dmg'
           - platform: 'macos-latest' # for Intel based macs.
             args: '--target x86_64-apple-darwin'
-            file: './src-tauri/target/release/bundle/dmg/MoeKoe Music_${{ needs.get-version.outputs.version }}_amd64.dmg'
+            file: './src-tauri/target/release/bundle/dmg/MoeKoe Music_${{ needs.get-version.outputs.version }}_x86_64.dmg'
           - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
             args: ''
             file: './src-tauri/target/release/bundle'
@@ -76,7 +76,7 @@ jobs:
       - name: install and build
         run: |
           pnpm install
-          pnpm app:build ${{ matrix.args }}
+          pnpm tauri build ${{ matrix.args }}
 
       - name: list files
         run: ls -R ./src-tauri/target/release/bundle
