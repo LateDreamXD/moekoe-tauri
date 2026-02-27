@@ -31,11 +31,12 @@ jobs:
         include:
           - platform: 'macos-latest' # for Arm based macs (M1 and above).
             args: '--target aarch64-apple-darwin'
-            file: './src-tauri/target/release/bundle/dmg' # direct archive dir to ignore diffrent arch filename
+            file: './src-tauri/target/release/bundle/dmg/MoeKoe Music_${{ needs.get-version.outputs.version }}_aarch64.dmg'
           - platform: 'macos-latest' # for Intel based macs.
             args: '--target x86_64-apple-darwin'
+            file: './src-tauri/target/release/bundle/dmg/MoeKoe Music_${{ needs.get-version.outputs.version }}_amd64.dmg'
           - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
-            args: '--bundle deb rpm'
+            args: ''
             file: './src-tauri/target/release/bundle'
           - platform: 'windows-latest'
             args: ''
@@ -76,5 +77,5 @@ jobs:
       - name: upload artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.platform }}
+          name: ${{ matrix.platform }}${{ contains(matrix.args, 'aarch64') && '_aarch64' || '' }}
           path: ${{ matrix.file }}
