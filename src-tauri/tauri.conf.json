@@ -29,7 +29,8 @@
     "icon": [
       "../core/build/icons/icon.ico",
       "../core/build/icons/icon.icns",
-      "../core/build/icons/icon.png"
+      "../core/build/icons/icon.png",
+      "../icons/linux_256x.png"
     ],
     "category": "Music"
   }

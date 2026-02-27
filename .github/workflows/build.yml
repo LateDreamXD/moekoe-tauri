@@ -36,9 +36,7 @@ jobs:
             args: '--target x86_64-apple-darwin'
           - platform: 'ubuntu-22.04' # for Tauri v1 you could replace this with ubuntu-20.04.
             args: '--bundle deb rpm'
-            file: |
-              './src-tauri/target/release/bundle/deb/MoeKoe Music_${{ needs.get-version.outputs.version }}_amd64.deb'
-              './src-tauri/target/release/bundle/rpm/MoeKoe Music-${{ needs.get-version.outputs.version }}-1.x86_64.rpm'
+            file: './src-tauri/target/release/bundle'
           - platform: 'windows-latest'
             args: ''
             file: './src-tauri/target/release/app.exe'
